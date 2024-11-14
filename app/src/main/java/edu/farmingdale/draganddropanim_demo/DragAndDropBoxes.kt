@@ -5,6 +5,7 @@ package edu.farmingdale.draganddropanim_demo
 import android.content.ClipData
 import android.content.ClipDescription
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -38,9 +39,12 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.Icon
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StampedPathEffectStyle.Companion.Rotate
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -115,6 +119,12 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
             }
         }
 
+        val rtat = remember {
+            Animatable(0f)
+        }
+        LaunchedEffect(Unit) {
+            rtat.animateTo(720f)
+        }
 
         Canvas(
             modifier = Modifier
@@ -123,9 +133,9 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
                 .background(Color.Red)
 
         ) {
-            translate (left = 90f, top = 100f) {
+            rotate(0f){translate (left = 90f, top = 100f) {
                 drawRect(Color.Blue, size = Size(100f, 100f))
-       } }
+       } } }
     }
 }
 
