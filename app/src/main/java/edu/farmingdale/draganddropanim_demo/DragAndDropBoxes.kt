@@ -38,6 +38,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -122,8 +123,9 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
                 .background(Color.Red)
 
         ) {
-                drawRect(Color.Green,  topLeft = Offset(90f, 75f), size = Size(100f, 50f))
-       }
+            translate (left = 90f, top = 100f) {
+                drawRect(Color.Blue, size = Size(100f, 100f))
+       } }
     }
 }
 
