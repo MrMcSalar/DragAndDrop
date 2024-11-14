@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             DragAndDropAnim_DemoTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                   Greeting("Android", Modifier.padding(innerPadding))
+                    DragAndDropBoxes(Modifier.padding(innerPadding))
 
                 }
             }
@@ -31,8 +31,8 @@ class MainActivity : ComponentActivity() {
 
 
 // This should be completed in a group setting
-// ToDo 1: Analyze the requirements for Individual Project 3
-// ToDo 2: Show the DragAndDropBoxes composable
+// Done 1: Analyze the requirements for Individual Project 3
+// Done 2: Show the DragAndDropBoxes composable
 // ToDo 3: Change the circle to a rect
 // ToDo 4: Replace the command right with a image or icon
 // ToDo 5: Make this works in landscape mode only
@@ -44,15 +44,11 @@ class MainActivity : ComponentActivity() {
 
 
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(text = "Hello $name!", modifier = modifier)
-}
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     DragAndDropAnim_DemoTheme {
-        Greeting("Android")
+        DragAndDropBoxes()
     }
 }
