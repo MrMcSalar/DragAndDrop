@@ -36,6 +36,7 @@ import androidx.compose.ui.draganddrop.DragAndDropTransferData
 import androidx.compose.ui.draganddrop.mimeTypes
 import androidx.compose.foundation.Canvas
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -62,7 +63,7 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
                         .fillMaxHeight()
                         .padding(10.dp)
                         .border(1.dp, Color.Black)
-                        .dragAndDropTarget(
+                        .dragAndDropTarget(    // talk abt this
                             shouldStartDragAndDrop = { event ->
                                 event
                                     .mimeTypes()
@@ -95,7 +96,7 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
                                 .fillMaxSize()
                                 .dragAndDropSource {
                                     detectTapGestures(
-                                        onLongPress = { offset ->
+                                        onLongPress = { offset ->  //talk abt this
                                             startTransfer(
                                                 transferData = DragAndDropTransferData(
                                                     clipData = ClipData.newPlainText(
@@ -121,7 +122,7 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
                 .background(Color.Red)
 
         ) {
-                drawCircle(Color.Green, radius = 50f, center = Offset(100f, 100f))
+                drawRect(Color.Green,  topLeft = Offset(90f, 75f), size = Size(100f, 50f))
        }
     }
 }

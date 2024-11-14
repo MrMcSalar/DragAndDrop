@@ -29,9 +29,9 @@ class MainActivity : ComponentActivity() {
 
 
 // This should be completed in a group setting
-// ToDo 1: Analyze the requirements for Individual Project 3
-// ToDo 2: Show the DragAndDropBoxes composable
-// ToDo 3: Change the circle to a rect
+// Done 1: Analyze the requirements for Individual Project 3
+// Done 2: Show the DragAndDropBoxes composable
+// Done 3: Change the circle to a rect
 // ToDo 4: Replace the command right with a image or icon
 // ToDo 5: Make this works in landscape mode only
 // ToDo 6: Rotate the rect around itself
