@@ -7,9 +7,10 @@ import android.content.ClipDescription
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.animateIntOffsetAsState
-import androidx.compose.animation.core.repeatable
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -27,16 +28,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -45,19 +41,26 @@ import androidx.compose.ui.draganddrop.DragAndDropEvent
 import androidx.compose.ui.draganddrop.DragAndDropTarget
 import androidx.compose.ui.draganddrop.DragAndDropTransferData
 import androidx.compose.ui.draganddrop.mimeTypes
-import androidx.compose.ui.draw.rotate
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
-//private val rotation = FloatPropKey()
 
 
 @Composable
 fun DragAndDropBoxes(modifier: Modifier = Modifier) {
-    var isPlaying by remember { mutableStateOf(true) }
     Column(modifier = Modifier.fillMaxSize()) {
 
         Row(
@@ -86,7 +89,7 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
                             target = remember {
                                 object : DragAndDropTarget {
                                     override fun onDrop(event: DragAndDropEvent): Boolean {
-                                        isPlaying = !isPlaying
+
                                         dragBoxIndex = index
                                         return true
                                     }
@@ -100,13 +103,11 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
                         enter = scaleIn() + fadeIn(),
                         exit = scaleOut() + fadeOut()
                     ) {
-                        Text(
-                            text = "Right",
-                            fontSize = 40.sp,
-                            color = Color.Red,
-                            fontWeight = FontWeight.Bold,
-
+                        Image(
+                            painter = painterResource(id = R.drawable.iconn),
+                            contentDescription = "My Image",
                             modifier = Modifier
+                                .background(Color.White)
                                 .fillMaxSize()
                                 .dragAndDropSource {
                                     detectTapGestures(
@@ -128,21 +129,12 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
             }
         }
 
-
-        val pOffset by animateIntOffsetAsState(
-            targetValue = when (isPlaying) {
-                true -> IntOffset(130, 300)
-                false -> IntOffset(130, 100)
-            },
-            animationSpec = tween(3000, easing = LinearEasing)
-        )
-
-        val rtatView by animateFloatAsState(
-            targetValue = if (isPlaying) 360f else 0.0f,
-            // Configure the animation duration and easing.
-            animationSpec = repeatable(
-                iterations = if (isPlaying) 10 else 1,
-                tween(durationMillis = 3000, easing = LinearEasing),
+        val infiniteTransition = rememberInfiniteTransition()
+        val rotationAngle by infiniteTransition.animateFloat(
+            initialValue = 0f,
+            targetValue = 360f,
+            animationSpec = infiniteRepeatable(
+                animation = tween(durationMillis = 2000, easing = LinearEasing),
                 repeatMode = RepeatMode.Restart
             )
         )
@@ -152,13 +144,14 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
                 .weight(0.8f)
                 .background(Color.Red)
         ) {
-            Icon(
-                imageVector = Icons.Default.Face,
-                contentDescription = "Face",
+            Box(
                 modifier = Modifier
-                    .padding(10.dp)
-                    .offset(pOffset.x.dp, pOffset.y.dp)
-                    .rotate(rtatView)
+                    .size(50.dp)
+                    .graphicsLayer {
+                        rotationZ = rotationAngle
+                    }
+                    .background(Color.Green)
+                    .align(Alignment.Center)
             )
         }
     }
